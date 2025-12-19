@@ -1,0 +1,308 @@
+/* =========================================
+   1. SYSTÈME DE POLICE ÉCHELONNABLE (SCALING)
+   ========================================= */
+/* Desktop */
+:root {
+  --size-unit: 16;
+  --size-container-ideal: 1440;
+  --size-container-min: 1080px;
+  --size-container-max: 1440px;
+  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
+  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+}
+
+/* Tablet */
+@media screen and (max-width: 991px) {
+  :root {
+    --size-container-ideal: 834;
+    --size-container-min: 768px;
+    --size-container-max: 991px;
+  }
+}
+
+/* Mobile Landscape */
+@media screen and (max-width: 767px) {
+  :root {
+    --size-container-ideal: 550;
+    --size-container-min: 480px;
+    --size-container-max: 767px;
+  }
+}
+
+/* Mobile Portrait */
+@media screen and (max-width: 479px) {
+  :root {
+    --size-container-ideal: 390;
+    --size-container-min: 320px;
+    --size-container-max: 479px;
+  }
+}
+
+html, body {
+  font-size: var(--size-font);
+}
+
+/* =========================================
+   2. TYPOGRAPHIE & GLOBAL
+   ========================================= */
+h1, h2, h3, h4, h5, h6, p { margin: 0; }
+
+h1, .h1 {
+  font-size: var(--_responsive---font-size--h1);
+  letter-spacing: var(--_typography---h1--letter-spacing);
+  font-family: var(--_typography---h1--font);
+  line-height: var(--_typography---h1--line-height);
+  font-weight: var(--_typography---h1--font-weight);
+}
+/* Note: Les variables --_responsive... viennent du fichier CSS Webflow lié dans le HTML */
+
+.u-font-primary { font-family: var(--_typography---font--primary); }
+.u-font-secondary { font-family: var(--_typography---font--secondary); }
+
+/* Global Reset & Scroll */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scrollbar-width: none; }
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  min-height: 100%;
+  -ms-overflow-style: none;
+}
+body ::-webkit-scrollbar { display: none; }
+::selection { background-color: var(--brand--yellow); color: var(--neutral--white); text-shadow: none; }
+
+/* Utilities */
+.hide { display: none !important; }
+.u-text-clamp-1 { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+.u-text-clamp-2 { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.u-text-clamp-3 { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+
+@media screen and (min-width: 992px) { .hide-dd { display: none !important; } }
+@media screen and (max-width: 991px) { .hide-td { display: none !important; } .td-block { display: block !important; } }
+@media screen and (max-width: 767px) { .hide-ld { display: none !important; } .ld-block { display: block !important; } }
+
+/* =========================================
+   3. GRILLE & LAYOUT
+   ========================================= */
+:root {
+  --site--max-width: min(var(--_layout---site--width), 100vw);
+  --container--main: calc(var(--site--max-width) - var(--_layout---site--margin) * 2);
+  /* ... Variables de grille complètes conservées pour la structure ... */
+  --grid-main: repeat(var(--_layout---site--column-count), minmax(0, 1fr));
+}
+
+.flex-col, .flex-row {
+  &.align-start { align-items: flex-start; }
+  &.align-center { align-items: center; }
+  &.align-end { align-items: flex-end; }
+  &.stretch { align-items: stretch; }
+  &.justify-start { justify-content: flex-start; }
+  &.justify-center { justify-content: center; }
+  &.justify-end { justify-content: flex-end; }
+  &.between { justify-content: space-between; }
+  &.center { align-items: center; justify-content: center; }
+}
+
+/* Espacements */
+.mt { margin-right: 0em !important; margin-bottom: 0em !important; margin-left: 0em !important; }
+.m-16 { margin: var(--_layout---spacing--16); }
+.gap-4 { gap: var(--_layout---spacing--4); }
+.gap-8 { gap: var(--_layout---spacing--8); }
+.gap-16 { gap: var(--_layout---spacing--16); }
+/* Ajoutez d'autres classes gap si nécessaire selon le besoin */
+
+/* =========================================
+   4. VARIABLES PERSONNALISÉES (COULEURS, OMBRES)
+   ========================================= */
+:root {
+  --ease-main: cubic-bezier(0.6, 0.6, 0, 1);
+  --duration-default: 0.8s;
+  --transition: all var(--duration-default) var(--ease-main);
+  
+  --border-color: var(--alpha--white-3);
+
+  --gr-yellow: linear-gradient(310deg, rgba(255, 255, 255, 0) 49.03%, rgba(255, 255, 255, 0.5) 96.11%), linear-gradient(133deg, #f17324 -15.78%, #dc8e21 106.03%);
+  --gr-glass: radial-gradient(100.01% 100% at 50.75% 0%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%), rgba(255, 255, 255, 0.02);
+  
+  /* Gradients Agents */
+  --gr-agent-manue: linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%), linear-gradient(100deg, #e9b306 -3.1%, #713f11 104.16%);
+  --gr-agent-tom: linear-gradient(107deg, #007171 -4.33%, #005656 104.06%);
+  --gr-agent-john: linear-gradient(107deg, #d946ef -1.24%, #7f579c 104.73%);
+  --gr-agent-lou: linear-gradient(108deg, #b5d1ff -3.63%, #2e64ff 102.6%);
+  --gr-agent-charly: var(--gr-yellow);
+  --gr-agent-elio: linear-gradient(100deg, #a283ef -3.1%, #725cdd 104.16%);
+  --gr-agent-julia: linear-gradient(108deg, #e0b981 -1.8%, #a35f25 100.58%);
+  --gr-agent-rony: linear-gradient(110deg, #adfaff -2.39%, #0041ce 105.1%);
+
+  /* Shadows */
+  --sh-glass: 0px 0px 30.5px 0px rgba(255, 255, 255, 0.06) inset;
+  --sh-btn: 0px 1px 0px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 4px 0px rgba(255, 255, 255, 0.25) inset, 0px 0.25px 0.25px 0px rgba(0, 0, 0, 0.04), 0px 2px 12px 0px rgba(220, 142, 33, 0.25);
+}
+
+/* =========================================
+   5. ÉLÉMENTS GRAPHIQUES (BORDURES, FONDS)
+   ========================================= */
+[data-bg='yellow'] { background: var(--gr-yellow); background-blend-mode: overlay, normal; }
+[data-bg='glass'] { background: var(--gr-glass); }
+[data-bg='pricing-card'] { background: #0b0908; }
+
+/* Bordures gérées via pseudo-éléments */
+[data-b] { position: relative; }
+[data-b]::after {
+  content: ''; position: absolute; inset: 0px; z-index: 1; border-radius: inherit;
+  border: 1px solid var(--border-color); opacity: 1; pointer-events: none;
+}
+[data-b-opacity='3'] { --border-color: var(--alpha--white-3); }
+[data-b-opacity='6'] { --border-color: var(--alpha--white-6); }
+
+.u-bg-element::after {
+  content: ''; position: absolute; inset: 0px; z-index: 1; border-radius: inherit;
+  border: 1px solid var(--border-color); pointer-events: none;
+}
+.u-bg-element[data-bg-blur='true'] { backdrop-filter: blur(2em); -webkit-backdrop-filter: blur(2em); }
+
+/* =========================================
+   6. COMPOSANTS : BOUTONS
+   ========================================= */
+.btn_wrap {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px; overflow: hidden; transition: color var(--duration-half) var(--ease-main);
+}
+
+.btn_wrap[data-wf--interactive-button--variant='main'] {
+  padding: 0.6875em 1.4375em; color: var(--neutral--white);
+}
+.btn_wrap[data-wf--interactive-button--variant='main'] .btn_bg {
+  background: var(--brand--yellow); box-shadow: var(--sh-btn);
+}
+
+.btn_wrap[data-wf--interactive-button--variant='glass'] {
+  padding: 0.6875em 1.4375em; color: var(--neutral--white);
+}
+.btn_wrap[data-wf--interactive-button--variant='glass'] .btn_bg {
+  background: var(--gr-glass); box-shadow: var(--sh-glass); backdrop-filter: blur(3.125em);
+  border: 1px solid var(--alpha--white-6);
+}
+
+/* Animation Boutons (Flèches et texte) */
+.btn_wrap .btn_arrow { transition: transform var(--duration-half) var(--ease-main); }
+.btn_wrap .btn_arrow:nth-child(1) { transform: translate(0%, 0%); }
+.btn_wrap .btn_arrow:nth-child(2) { transform: translate(-100%, 100%); }
+
+.btn_wrap:hover .btn_arrow:nth-child(1) { transform: translate(100%, -100%); }
+.btn_wrap:hover .btn_arrow:nth-child(2) { transform: translate(0%, 0%); }
+.btn_wrap:hover .btn_bg { inset: 0.125em; }
+
+/* =========================================
+   7. NAVBAR & HEADER
+   ========================================= */
+.header { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; transition: padding 0.3s; }
+.navlink { position: relative; }
+.navlink .navlink_text { transition: color 0.3s; color: var(--alpha--white-73); }
+.navlink:hover .navlink_text, .navlink.w--current .navlink_text { color: var(--neutral--white); }
+
+.header_bg {
+  position: absolute; inset: 0; z-index: -1;
+  background-image: linear-gradient(rgba(6, 4, 3, 1) 0%, rgba(6, 4, 3, 0) 100%);
+}
+
+/* =========================================
+   8. HERO SECTION
+   ========================================= */
+.hero_screen_border {
+  position: absolute; pointer-events: none; inset: 0em; padding: 1px; border-radius: inherit;
+  mask-image: linear-gradient(#fff 0 0), linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.hero_screen_border::after {
+  content: ''; position: absolute; background: radial-gradient(50% 50% at 50% 50%, var(--brand--yellow) 0%, rgba(241, 115, 36, 0) 100%);
+  width: 20em; height: 20em; transform: translate(-50%, 50%);
+  animation: go-around 6s linear infinite; z-index: 1;
+}
+
+@keyframes go-around {
+  0%, 100% { left: 0%; bottom: 0%; }
+  25% { left: 0%; bottom: 100%; }
+  50% { left: 100%; bottom: 100%; }
+  75% { left: 100%; bottom: 0%; }
+}
+
+/* Animation Cercle Hero */
+@media screen and (min-width: 768px) {
+  .hero_bg_circle { animation: hero-bg-circle 8s linear infinite; }
+  @keyframes hero-bg-circle { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+}
+
+/* =========================================
+   9. AGENTS TABS
+   ========================================= */
+.agent_tabs_btn {
+  position: relative; cursor: pointer;
+}
+.agent_tabs_btn img { transition: transform 0.4s var(--ease-main); }
+.agent_tabs_btn:hover img { transform: scale(1.1); }
+
+.agent_tabs_btn_visual { filter: saturate(0); transition: filter 0.4s; }
+.agent_tabs_btn:hover .agent_tabs_btn_visual, .agent_tabs_btn.active .agent_tabs_btn_visual { filter: saturate(1); }
+
+/* Animation Bordure Agent */
+.agent_tabs_btn_border::after {
+  content: ''; position: absolute;
+  background: conic-gradient(from 5deg at 50% 50%, transparent 260deg, var(--brand--yellow) 360deg, rgba(65, 218, 144, 0) 361deg);
+  width: 120%; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  animation: agent_tabs_btn_border 6s linear infinite;
+}
+@keyframes agent_tabs_btn_border {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.agent_tabs_content_bg[data-agent='Tom'] { background: var(--gr-agent-tom); box-shadow: var(--sh-agent-tom); }
+.agent_tabs_content_bg[data-agent='John'] { background: var(--gr-agent-john); box-shadow: var(--sh-agent-john); }
+/* ... (Autres agents gérés par les variables définies plus haut) ... */
+
+/* =========================================
+   10. MARQUEE & ANIMATIONS DIVERSES
+   ========================================= */
+@keyframes translateX { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+[data-marquee-list] {
+  animation: translateX 30s linear infinite; will-change: transform;
+}
+[data-marquee-reverse] [data-marquee-list] { animation-direction: reverse; }
+
+/* Texte Or */
+.text-gold {
+  background: var(--gr-yellow); color: transparent;
+  background-clip: text; -webkit-background-clip: text;
+}
+
+/* =========================================
+   11. CSS SPÉCIFIQUE CHARLY (iPhone)
+   ========================================= */
+.container.cc-charly {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--alpha--white-3) 100%);
+}
+.charly_line_item .charly_line_anim {
+    right: 100%;
+    animation: charly_line_anim 2.5s linear infinite;
+}
+@keyframes charly_line_anim {
+    0% { right: 100%; }
+    100% { right: -50%; }
+}
+
+/* =========================================
+   12. PRICING & MODAL
+   ========================================= */
+body[data-modal-status='open'] { overflow: hidden; }
+
+/* =========================================
+   13. FORMULAIRES & FOOTER
+   ========================================= */
+[data-validate].is--error input { border-color: var(--utility--error); }
+.footer-link::after {
+    content: ''; position: absolute; width: 100%; height: 1px; bottom: 0; left: 0;
+    transform: scale(0, 1); transition: transform 0.3s; transform-origin: center right; background: currentColor;
+}
+.footer-link:hover::after { transform: scale(1, 1); transform-origin: center left; }
